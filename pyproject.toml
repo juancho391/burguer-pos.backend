@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dotenv>=0.9.9",
-    "fastapi>=0.119.1",
+    "fastapi[standard]>=0.119.1",
     "kink>=0.8.1",
     "pydantic>=2.12.3",
     "sqlmodel>=0.0.27",
