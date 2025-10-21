@@ -8,6 +8,7 @@ dependencies = [
     "dotenv>=0.9.9",
     "fastapi[standard]>=0.119.1",
     "kink>=0.8.1",
+    "passlib>=1.7.4",
     "pydantic>=2.12.3",
     "sqlmodel>=0.0.27",
 ]
