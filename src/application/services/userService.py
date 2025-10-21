@@ -3,6 +3,7 @@ from src.application.dtos.userDto import CreateUserDto, UserDto
 from src.domain.classes.user import User
 from kink import inject  # type: ignore
 from src.domain.errors.errors import UserAlreadyExistsError
+from src.infrastructure.security.hasher import PasswordHasher
 
 
 @inject  # type: ignore
@@ -15,6 +16,7 @@ class UserService:
         if existing_user:
             raise UserAlreadyExistsError(email=new_user.email)
 
+        new_user.password = PasswordHasher.hash_password(new_user.password)
         user_entity = User.create_new_one(
             name=new_user.name, email=new_user.email, password=new_user.password
         )
