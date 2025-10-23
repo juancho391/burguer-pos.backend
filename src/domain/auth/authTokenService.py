@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.domain.classes.token import Token
+from src.domain.classes.token import Token, TokenData
 
 
 class AuthTokenService(ABC):
@@ -8,5 +8,9 @@ class AuthTokenService(ABC):
         pass
 
     @abstractmethod
-    def verify_token(self, token: Token) -> Token:
+    def verify_token(self, token: Token) -> TokenData:
+        pass
+
+    @abstractmethod
+    def get_current_user(self, token: Token) -> TokenData:
         pass
