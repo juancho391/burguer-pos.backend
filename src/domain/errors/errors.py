@@ -14,3 +14,8 @@ class UserAlreadyExistsError(DomainError):
 class UserInvalidCredentialsError(DomainError):
     def __init__(self):
         super().__init__("Invalid email or password.")
+
+
+class AuthenticationError(DomainError):
+    def __init__(self, message: str = "Authentication failed."):
+        super().__init__(message)
