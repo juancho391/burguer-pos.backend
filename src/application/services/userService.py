@@ -1,15 +1,20 @@
 from src.domain.repositories.userRepository import IUserRepository
-from src.application.dtos.userDto import CreateUserDto, UserDto
+from src.application.dtos.userDto import CreateUserDto, UserDto, UserLoginDto
 from src.domain.classes.user import User
 from kink import inject  # type: ignore
-from src.domain.errors.errors import UserAlreadyExistsError
+from src.domain.errors.errors import UserAlreadyExistsError, UserInvalidCredentialsError
 from src.infrastructure.security.hasher import PasswordHasher
+from src.infrastructure.security.auth import JwtService
+from src.domain.classes.token import Token
 
 
 @inject  # type: ignore
 class UserService:
-    def __init__(self, user_repository: IUserRepository) -> None:
+    def __init__(
+        self, user_repository: IUserRepository, jwt_service: JwtService
+    ) -> None:
         self.repository = user_repository
+        self.auth_service = jwt_service
 
     def create_user(self, new_user: CreateUserDto) -> UserDto:
         existing_user = self.repository.get_user_by_email(email=new_user.email)
@@ -22,3 +27,14 @@ class UserService:
         )
         user_created = self.repository.add_user(user_entity)
         return UserDto(**user_created.__dict__)
+
+    def authenticate_user(self, user: UserLoginDto) -> Token:
+        user_in_db = self.repository.get_user_by_email(email=user.email)
+        if not user_in_db or not PasswordHasher.verify_password(
+            user.password, user_in_db.password
+        ):
+            raise UserInvalidCredentialsError()
+        return self.auth_service.create_access_token(user_id=user_in_db.id, email=user_in_db.email)  # type: ignore
+
+    def get_current_user(self, token: Token) -> Token:
+        return self.auth_service.verify_token(token=token)
