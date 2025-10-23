@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from src.application.dtos.userDto import CreateUserDto, UserDto, UserLoginDto
 from src.application.services.userService import UserService
-from src.domain.errors.errors import UserAlreadyExistsError
+from src.domain.errors.errors import UserAlreadyExistsError, UserInvalidCredentialsError
 from kink import di
 
 router = APIRouter()
@@ -27,9 +27,13 @@ def login(
 ) -> JSONResponse:
     try:
         token = user_service.authenticate_user(user=user)
-    except UserAlreadyExistsError as e:
+    except UserInvalidCredentialsError as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
     return JSONResponse(
-        content={"message": "Login successful", "status": "success", "token": token},
+        content={
+            "message": "Login successful",
+            "status": "success",
+            "token": token.model_dump(),
+        },
         status_code=status.HTTP_200_OK,
     )
