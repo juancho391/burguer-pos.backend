@@ -12,3 +12,8 @@ class UserDto(SQLModel):
     id: int
     name: str
     email: str
+
+
+class UserLoginDto(SQLModel):
+    email: EmailStr
+    password: str
