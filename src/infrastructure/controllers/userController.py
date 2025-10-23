@@ -5,10 +5,10 @@ from src.application.services.userService import UserService
 from src.domain.errors.errors import UserAlreadyExistsError, UserInvalidCredentialsError
 from kink import di
 
-router = APIRouter()
+router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
-@router.post("/users", response_model=UserDto)
+@router.post("/register", response_model=UserDto)
 def register(
     user: CreateUserDto, user_service: UserService = Depends(lambda: di[UserService])
 ) -> JSONResponse:
@@ -21,7 +21,7 @@ def register(
     )
 
 
-@router.post("/login")
+@router.post("/token")
 def login(
     user: UserLoginDto, user_service: UserService = Depends(lambda: di[UserService])
 ) -> JSONResponse:
