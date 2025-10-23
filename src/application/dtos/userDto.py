@@ -5,7 +5,7 @@ from pydantic import EmailStr
 class CreateUserDto(SQLModel):
     name: str = Field(min_length=4, max_length=50)
     email: EmailStr
-    password: str = Field(min_length=8, max_length=30)
+    password: str = Field(min_length=8)
 
 
 class UserDto(SQLModel):
