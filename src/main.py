@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from src.infrastructure.db.db import init_db
 from fastapi.middleware.cors import CORSMiddleware
 from src.infrastructure.controllers.userController import router as user_router
+from fastapi.openapi.utils import get_openapi
+from typing import Any
 
 app = FastAPI()
 
@@ -14,8 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-from fastapi.openapi.utils import get_openapi
-from typing import Any
 
 app.include_router(user_router)
 
