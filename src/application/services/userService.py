@@ -6,7 +6,6 @@ from kink import inject  # type: ignore
 from src.domain.errors.errors import UserAlreadyExistsError, UserInvalidCredentialsError
 from src.infrastructure.security.hasher import PasswordHasher
 from src.infrastructure.security.auth import JwtService
-from src.domain.classes.token import Token
 
 
 @inject  # type: ignore
@@ -36,6 +35,3 @@ class UserService:
         ):
             raise UserInvalidCredentialsError()
         return TokenDto(**self.auth_service.create_access_token(user_in_db.id, user.email).__dict__)  # type: ignore
-
-    def get_current_user(self, token: Token) -> TokenDto:
-        return TokenDto(**self.auth_service.verify_token(token).__dict__)
