@@ -1,11 +1,16 @@
 from sqlmodel import create_engine, SQLModel, Session
+from dotenv import load_dotenv
 import pytest
+import os
 
-sqlite_name = "db_test.db"
-sqlite_url = f"sqlite:///{sqlite_name}"
+load_dotenv()
 
+TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
 
-engine_test = create_engine(sqlite_url)
+sqlite_url = f"sqlite:///db_test.db"
+
+if TEST_DATABASE_URL:
+    engine_test = create_engine(TEST_DATABASE_URL)
 
 
 @pytest.fixture(autouse=True)

@@ -7,20 +7,15 @@ from src.infrastructure.models import (
     ingredientModel,  # type: ignore
     productIngredientModel,  # type: ignore
 )
-
-# from dotenv import load_dotenv
-# import os
-
-
-# load_dotenv()
-
-# DATABASE_URL = os.getenv("DATABASE_URL")
-
-sqlite_file_name = "database.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+from dotenv import load_dotenv
+import os
 
 
-engine = create_engine(sqlite_url)  # type: ignore
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+engine = create_engine(DATABASE_URL)  # type: ignore
 
 
 def init_db():

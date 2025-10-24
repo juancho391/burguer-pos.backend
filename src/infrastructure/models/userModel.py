@@ -3,6 +3,7 @@ from pydantic import EmailStr
 
 
 class UserModel(SQLModel, table=True):
+    __tablename__ = "Users"  # type: ignore
     id: int = Field(default=None, primary_key=True)
     name: str = Field(nullable=False, max_length=100)
     email: EmailStr = Field(index=True, unique=True, nullable=False)
