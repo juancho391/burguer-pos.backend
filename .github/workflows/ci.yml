@@ -27,7 +27,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
-          echo "ALGORITHM=${{ secrets.ALGORITHM }}" >> $GITHUB_ENV
+          echo "ALGORITHM=${{ secrets.JWT_ALGORITHM }}" >> $GITHUB_ENV
           echo "ACCESS_TOKEN_EXPIRE_MINUTES=${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}" >> $GITHUB_ENV
           echo "TEST_DATABASE_URL=${{ secrets.TEST_DATABASE_URL }}" >> $GITHUB_ENV
 
