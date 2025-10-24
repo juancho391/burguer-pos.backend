@@ -7,7 +7,6 @@ load_dotenv()
 
 TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
 
-sqlite_url = f"sqlite:///db_test.db"
 
 if TEST_DATABASE_URL:
     engine_test = create_engine(TEST_DATABASE_URL)

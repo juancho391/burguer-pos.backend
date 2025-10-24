@@ -1,11 +1,11 @@
 from sqlmodel import SQLModel, create_engine, Session
 from src.infrastructure.models import (
-    userModel,  # type: ignore
-    productModel,  # type: ignore
-    orderModel,  # type: ignore
-    orderProductModel,  # type: ignore
-    ingredientModel,  # type: ignore
-    productIngredientModel,  # type: ignore
+    userModel,  # type: ignore # noqa: F401
+    productModel,  # type: ignore # noqa: F401
+    orderModel,  # type: ignore # noqa: F401
+    orderProductModel,  # type: ignore # noqa: F401
+    ingredientModel,  # type: ignore # noqa: F401
+    productIngredientModel,  # type: ignore # noqa: F401
 )
 from dotenv import load_dotenv
 import os
