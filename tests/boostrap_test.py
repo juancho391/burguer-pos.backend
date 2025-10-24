@@ -9,14 +9,14 @@ from src.domain.repositories.userRepository import IUserRepository
 
 
 def bootstrap_dependencies_test():
-    # Repositorio con sesión de prueba
+    # Repositories
     session = next(get_session_test())
     user_repository = PostgreSqlUserRepository(session=session)
 
-    # Servicio JWT
+    # Services
     jwt_service = JwtService()
 
-    # Sobrescribir dependencias en Kink
+    # Dependency Injection
     di[IUserRepository] = user_repository
     di[UserService] = UserService(
         user_repository=user_repository, jwt_service=jwt_service
