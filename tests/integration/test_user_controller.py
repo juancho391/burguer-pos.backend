@@ -6,27 +6,35 @@ from src.main import app
 class TestUserController:
     bootstrap_dependencies_test()
     client = TestClient(app)
+    register_payload = {
+        "name": "Jane Doe",
+        "email": "janedoe@gmail.com",
+        "password": "janedoe123",
+    }
+    login_payload = {
+        "email": "janedoe@gmail.com",
+        "password": "janedoe123",
+    }
 
     def test_create_user_integration_success(self):
-
-        payload = {
-            "name": "Jane Doe 2",
-            "email": "janedoe2@gmail.com",
-            "password": "janedoe1234",
-        }
-        response = self.client.post("auth/register/", json=payload)
+        response = self.client.post("auth/register/", json=self.register_payload)
         assert response.status_code == 201
         data = response.json()
-        assert data["name"] == payload["name"]
-        assert data["email"] == payload["email"]
+        assert data["name"] == self.register_payload["name"]
+        assert data["email"] == self.register_payload["email"]
         assert "id" in data
+
+    def test_create_user_already_exists_integration_error(self):
+        self.test_create_user_integration_success()
+        response = self.client.post("auth/register/", json=self.register_payload)
+        assert response.status_code == 400
+        assert (
+            response.json()["detail"]
+            == f"A user with the email '{self.register_payload['email']}' already exists."
+        )
 
     def test_authenticate_user_integration_success(self):
         self.test_create_user_integration_success()
-        login_payload = {
-            "email": "janedoe2@gmail.com",
-            "password": "janedoe1234",
-        }
-        response = self.client.post("auth/token/", json=login_payload)
+        response = self.client.post("auth/token/", json=self.login_payload)
         assert response.status_code == 200
         assert "token" in response.json()
