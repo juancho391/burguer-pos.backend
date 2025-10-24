@@ -38,3 +38,23 @@ class TestUserController:
         response = self.client.post("auth/token/", json=self.login_payload)
         assert response.status_code == 200
         assert "token" in response.json()
+
+    def test_authenticate_user_invalid_password_integration_error(self):
+        self.test_create_user_integration_success()
+        invalid_login_payload = {
+            "email": "janedoe@gmail.com",
+            "password": "janedoe1234",
+        }
+        response = self.client.post("auth/token/", json=invalid_login_payload)
+        assert response.status_code == 401
+        assert response.json()["detail"] == "Invalid email or password."
+
+    def test_authenticate_user_invalid_email_integration_error(self):
+        self.test_create_user_integration_success()
+        invalid_login_payload = {
+            "email": "janedoe2@gmail.com",
+            "password": "janedoe123",
+        }
+        response = self.client.post("auth/token/", json=invalid_login_payload)
+        assert response.status_code == 401
+        assert response.json()["detail"] == "Invalid email or password."
