@@ -16,7 +16,7 @@ load_dotenv()
 
 class JwtService(AuthTokenService):
     JWT_SECRET_KEY: str = os.getenv("SECRET_KEY", "")
-    JWT_ALGORITHM = os.getenv("ALGORITHM")
+    JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
