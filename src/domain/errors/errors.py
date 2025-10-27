@@ -19,3 +19,8 @@ class UserInvalidCredentialsError(DomainError):
 class AuthenticationError(DomainError):
     def __init__(self, message: str = "Authentication failed."):
         super().__init__(message)
+
+
+class PriceZeroError(DomainError):
+    def __init__(self, message: str = "Price must be greater than zero."):
+        super().__init__(message)
