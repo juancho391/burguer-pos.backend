@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from src.infrastructure.db.db import init_db
 from fastapi.middleware.cors import CORSMiddleware
 from src.infrastructure.controllers.userController import router as user_router
+from src.infrastructure.controllers.ingredientController import (
+    router as ingredient_router,
+)
 from fastapi.openapi.utils import get_openapi
 from typing import Any
 
@@ -18,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(user_router)
+app.include_router(ingredient_router)
 
 
 def custom_openapi() -> dict[str, Any]:

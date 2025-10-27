@@ -2,15 +2,22 @@ from kink import di
 from src.infrastructure.repositories.postgresql_user_repository import (
     PostgreSqlUserRepository,
 )
+from src.infrastructure.repositories.postgresql_ingredient_repository import (
+    PostgreSqlIngredientRepository,
+)
 from src.infrastructure.db.db import get_session_database
 from src.domain.repositories.userRepository import IUserRepository
 from src.application.services.userService import UserService
 from src.infrastructure.security.auth import JwtService
+from src.application.services.ingredientService import IngredientService
 
 
 def bootstrap_dependencies():
     # Repositories
     user_repository = PostgreSqlUserRepository(session=next(get_session_database()))
+    ingredient_repository = PostgreSqlIngredientRepository(
+        session=next(get_session_database())
+    )
 
     # Services
     jwt_service = JwtService()
@@ -21,3 +28,4 @@ def bootstrap_dependencies():
     di[UserService] = UserService(
         user_repository=user_repository, jwt_service=jwt_service
     )
+    di[IngredientService] = IngredientService(repository=ingredient_repository)
