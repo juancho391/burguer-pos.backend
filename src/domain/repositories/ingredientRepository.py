@@ -8,7 +8,7 @@ class IIngredientRepository(ABC):
         pass
 
     @abstractmethod
-    def get_all_ingredients(self) -> list[Ingredient]:
+    def get_all_ingredients(self, limit: int) -> list[Ingredient]:
         pass
 
     @abstractmethod
