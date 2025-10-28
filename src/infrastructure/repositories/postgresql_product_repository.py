@@ -3,8 +3,10 @@ from sqlmodel import Session
 from src.infrastructure.models.productModel import ProductModel
 from src.infrastructure.models.ingredientModel import IngredientModel
 from src.domain.classes.product import Product
-from src.application.dtos.productDto import CreateProductDto
+from src.application.dtos.productDto import CreateProductDto, ProductDto
 from src.infrastructure.models.productIngredientModel import ProductIngredientModel
+from sqlalchemy.orm import selectinload, joinedload
+from sqlmodel import select
 
 
 class PostgreSqlProductRepository(IProductRepository):
@@ -23,3 +25,16 @@ class PostgreSqlProductRepository(IProductRepository):
             price=new_product.price,
             ingredients=product.ingredients,
         )
+
+    def get_all_products(self, limit: int) -> list[Product]:
+        products = self.session.exec(select(ProductModel).limit(limit=limit)).all()
+        return [
+            Product.create_from_db_with_ingredients(
+                id=product.id,
+                name=product.name,
+                description=product.description,
+                price=product.price,
+                ingredients=product.ingredients_links,
+            )
+            for product in products
+        ]
