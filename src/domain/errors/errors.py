@@ -24,3 +24,8 @@ class AuthenticationError(DomainError):
 class PriceZeroError(DomainError):
     def __init__(self, message: str = "Price must be greater than zero."):
         super().__init__(message)
+
+
+class IngredientNotFoundError(DomainError):
+    def __init__(self, id: int):
+        super().__init__(f"Ingredient with id :{id} not found.")
