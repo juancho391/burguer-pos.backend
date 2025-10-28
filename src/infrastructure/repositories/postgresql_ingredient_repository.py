@@ -1,6 +1,6 @@
 from src.domain.classes.ingredient import Ingredient
 from src.domain.repositories.ingredientRepository import IIngredientRepository
-from sqlmodel import Session
+from sqlmodel import Session, select
 from src.infrastructure.models.ingredientModel import IngredientModel
 from src.application.dtos.ingredientDto import CreateIngredientDto
 
@@ -18,3 +18,14 @@ class PostgreSqlIngredientRepository(IIngredientRepository):
         self.session.commit()
         self.session.refresh(ingredient_model)
         return Ingredient.create_from_db(**ingredient_model.model_dump())
+
+    def get_all_ingredients(self) -> list[Ingredient]:
+        ingredients = self.session.exec(select(IngredientModel)).all()
+        return [
+            Ingredient.create_from_db(**ingredient.model_dump())
+            for ingredient in ingredients
+        ]
+
+    def get_ingredient_by_id(self, id: int) -> Ingredient:
+        ingredient = self.session.get(IngredientModel, id)
+        return Ingredient.create_from_db(**ingredient.model_dump())
