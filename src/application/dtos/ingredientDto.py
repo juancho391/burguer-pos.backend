@@ -10,3 +10,7 @@ class CreateIngredientDto(SQLModel):
 
 class IngredientDto(CreateIngredientDto):
     id: int
+
+
+class IngredientProductDto(IngredientDto):
+    quantity: int
