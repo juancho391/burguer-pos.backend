@@ -19,8 +19,10 @@ class PostgreSqlIngredientRepository(IIngredientRepository):
         self.session.refresh(ingredient_model)
         return Ingredient.create_from_db(**ingredient_model.model_dump())
 
-    def get_all_ingredients(self) -> list[Ingredient]:
-        ingredients = self.session.exec(select(IngredientModel)).all()
+    def get_all_ingredients(self, limit: int) -> list[Ingredient]:
+        ingredients = self.session.exec(
+            select(IngredientModel).limit(limit=limit)
+        ).all()
         return [
             Ingredient.create_from_db(**ingredient.model_dump())
             for ingredient in ingredients
