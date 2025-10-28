@@ -29,7 +29,7 @@ class Product:
         name: str,
         description: str,
         price: int,
-        ingredients: list[Ingredient],
+        ingredients: list[Ingredient] = [],
     ):
         return cls(
             id=id,
