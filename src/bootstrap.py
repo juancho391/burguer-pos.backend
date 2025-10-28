@@ -10,12 +10,30 @@ from src.domain.repositories.userRepository import IUserRepository
 from src.application.services.userService import UserService
 from src.infrastructure.security.auth import JwtService
 from src.application.services.ingredientService import IngredientService
+from src.application.services.productService import ProductService
+from src.domain.repositories.productRepository import IProductRepository
+from src.infrastructure.repositories.postgresql_product_repository import (
+    PostgreSqlProductRepository,
+)
+from src.infrastructure.repositories.postgresql_product_ingredient_repository import (
+    ProductIngredientRepository,
+)
+
+from src.domain.repositories.productIngredientRepository import (
+    IProductIngredientRepository,
+)
 
 
 def bootstrap_dependencies():
     # Repositories
     user_repository = PostgreSqlUserRepository(session=next(get_session_database()))
     ingredient_repository = PostgreSqlIngredientRepository(
+        session=next(get_session_database())
+    )
+    product_repository = PostgreSqlProductRepository(
+        session=next(get_session_database())
+    )
+    product_ingredient_repository = ProductIngredientRepository(
         session=next(get_session_database())
     )
 
@@ -27,5 +45,10 @@ def bootstrap_dependencies():
     di[IUserRepository] = user_repository
     di[UserService] = UserService(
         user_repository=user_repository, jwt_service=jwt_service
+    )
+    di[ProductService] = ProductService(
+        productRepository=product_repository,
+        productIngredientRepository=product_ingredient_repository,
+        ingredientRepository=ingredient_repository,
     )
     di[IngredientService] = IngredientService(repository=ingredient_repository)
