@@ -14,6 +14,6 @@ class IngredientModel(SQLModel, table=True):
     stock: int | None = 0
     reposition_point: int
 
-    products_links: list["ProductIngredientModel"] = Relationship(
+    products_links: list[ProductIngredientModel] = Relationship(
         back_populates="ingredient"
     )
