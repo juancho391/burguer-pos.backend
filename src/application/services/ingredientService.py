@@ -19,3 +19,7 @@ class IngredientService:
         )
         ingredient_created = self.repository.create_ingredient(ingredient_entity)
         return IngredientDto(**ingredient_created.__dict__)
+
+    def get_all_ingredients(self) -> list[IngredientDto]:
+        ingredients = self.repository.get_all_ingredients()
+        return [IngredientDto(**ingredient.__dict__) for ingredient in ingredients]
