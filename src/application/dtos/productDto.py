@@ -11,3 +11,11 @@ class CreateProductDto(SQLModel):
 
 class ProductDto(CreateProductDto):
     id: int
+
+
+class ProductDtoResponse(SQLModel):
+    id: int
+    name: str
+    description: str
+    price: int
+    ingredients: list[IngredientDto]

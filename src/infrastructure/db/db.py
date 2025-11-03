@@ -14,8 +14,9 @@ import os
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL_DEV = os.getenv("DATABASE_URL_DEV")
 
-engine = create_engine(DATABASE_URL)  # type: ignore
+engine = create_engine(DATABASE_URL_DEV)  # type: ignore
 
 
 def init_db():

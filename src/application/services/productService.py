@@ -3,7 +3,12 @@ from src.domain.repositories.productIngredientRepository import (
     IProductIngredientRepository,
 )
 from src.domain.repositories.ingredientRepository import IIngredientRepository
-from src.application.dtos.productDto import CreateProductDto, ProductDto
+from src.application.dtos.productDto import (
+    CreateProductDto,
+    ProductDto,
+    ProductDtoResponse,
+)
+from src.application.dtos.ingredientDto import IngredientDto
 from src.domain.classes.product import Product
 from src.domain.classes.productIngredient import ProductIngredient
 from src.domain.classes.ingredient import Ingredient
@@ -38,6 +43,7 @@ class ProductService:
             ingredients=product.ingredients,
         )
         product_created = self.productRepository.create_product(new_product)
+
         product_ingredients = [
             ProductIngredient.create_new_one(
                 id_product=product_created.id,
@@ -54,3 +60,19 @@ class ProductService:
         if not relations_created:
             raise Exception("Error creating product ingredients")
         return ProductDto(**product_created.__dict__)
+
+    def get_all_products(self, limit: int):
+        products = self.productRepository.get_all_products(limit=limit)
+        for product in products:
+            if product.ingredients:
+                product.ingredients = [
+                    IngredientDto(
+                        id=ingredient.id,
+                        name=ingredient.name,
+                        stock=ingredient.stock,
+                        reposition_point=ingredient.reposition_point,
+                    )
+                    for ingredient in product.ingredients
+                ]
+
+        return [ProductDtoResponse(**product.__dict__) for product in products]

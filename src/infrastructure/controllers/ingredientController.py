@@ -24,9 +24,9 @@ def create_ingredient(
 
 @router.get("/", response_model=list[IngredientDto])
 def get_all_ingredients(
-    service: IngredientService = Depends(lambda: di[IngredientService]),
+    service: IngredientService = Depends(lambda: di[IngredientService]), limit: int = 10
 ) -> list[IngredientDto]:
-    ingredients = service.get_all_ingredients()
+    ingredients = service.get_all_ingredients(limit=limit)
     return JSONResponse(
         content=[ingredient.model_dump() for ingredient in ingredients],
         status_code=status.HTTP_200_OK,

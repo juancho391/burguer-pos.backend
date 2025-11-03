@@ -14,6 +14,6 @@ class ProductModel(SQLModel, table=True):
     description: str | None = None
     price: float
 
-    ingredients_links: list["ProductIngredientModel"] = Relationship(
+    ingredients_links: list[ProductIngredientModel] = Relationship(
         back_populates="product"
     )
