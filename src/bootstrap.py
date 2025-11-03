@@ -11,16 +11,12 @@ from src.application.services.userService import UserService
 from src.infrastructure.security.auth import JwtService
 from src.application.services.ingredientService import IngredientService
 from src.application.services.productService import ProductService
-from src.domain.repositories.productRepository import IProductRepository
+
 from src.infrastructure.repositories.postgresql_product_repository import (
     PostgreSqlProductRepository,
 )
 from src.infrastructure.repositories.postgresql_product_ingredient_repository import (
     ProductIngredientRepository,
-)
-
-from src.domain.repositories.productIngredientRepository import (
-    IProductIngredientRepository,
 )
 
 

@@ -13,5 +13,5 @@ class ProductIngredientModel(SQLModel, table=True):
     id_ingredient: int = Field(foreign_key="Ingredients.id", nullable=False)
     quantity: int
 
-    product: "ProductModel" = Relationship(back_populates="ingredients_links")
-    ingredient: "IngredientModel" = Relationship(back_populates="products_links")
+    product: "ProductModel" = Relationship(back_populates="ingredients_links")  # type: ignore # noqa: F821
+    ingredient: "IngredientModel" = Relationship(back_populates="products_links")  # type: ignore # noqa: F821

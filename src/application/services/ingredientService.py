@@ -1,6 +1,5 @@
 from kink import inject
 from src.domain.repositories.ingredientRepository import IIngredientRepository
-from src.infrastructure.security.auth import JwtService
 from src.application.dtos.ingredientDto import CreateIngredientDto, IngredientDto
 from src.domain.classes.ingredient import Ingredient
 

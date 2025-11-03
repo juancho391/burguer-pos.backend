@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from typing import Optional
 from src.domain.classes.ingredient import Ingredient
 from src.domain.errors.errors import PriceZeroError
-from src.domain.classes.ingredient import Ingredient
 from src.application.dtos.productDto import IngredientProductDto
 
 
@@ -31,7 +30,7 @@ class Product:
         name: str,
         description: str,
         price: int,
-        ingredients: list["ProductIngredientModel"],
+        ingredients: list["ProductIngredientModel"],  # type: ignore # noqa: F821
     ):
 
         aux_list = []
@@ -39,7 +38,6 @@ class Product:
             aux_list.append(
                 Ingredient.create_from_db(**ingredient.ingredient.model_dump())
             )
-        print("product from db created")
         return cls(
             id=id,
             name=name,
