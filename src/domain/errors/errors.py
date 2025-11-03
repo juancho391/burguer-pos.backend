@@ -29,3 +29,8 @@ class PriceZeroError(DomainError):
 class IngredientNotFoundError(DomainError):
     def __init__(self, id: int):
         super().__init__(f"Ingredient with id :{id} not found.")
+
+
+class ProductNotFoundError(DomainError):
+    def __init__(self, id: int):
+        super().__init__(f"Product with id :{id} not found.")
