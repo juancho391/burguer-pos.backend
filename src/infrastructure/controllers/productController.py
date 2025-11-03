@@ -4,10 +4,9 @@ from kink import di
 from src.application.dtos.productDto import (
     CreateProductDto,
     ProductDto,
-    ProductDtoResponse,
 )
 from src.application.services.productService import ProductService
-from src.application.dtos.productIngredientDto import ProductIngredientDto
+from src.domain.errors.errors import ProductNotFoundError
 
 
 router = APIRouter(prefix="/products", tags=["Products"])
@@ -34,5 +33,19 @@ def get_all_products(
     products = service.get_all_products(limit=limit)
     return JSONResponse(
         content=[product.model_dump() for product in products],
+        status_code=status.HTTP_200_OK,
+    )
+
+
+@router.delete("/")
+def delete_product(
+    id: int, service: ProductService = Depends(lambda: di[ProductService])
+):
+    try:
+        service.delete_product(id=id)
+    except ProductNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return JSONResponse(
+        content={"message": "Product deleted successfully"},
         status_code=status.HTTP_200_OK,
     )
