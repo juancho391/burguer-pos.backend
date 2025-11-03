@@ -11,9 +11,8 @@ from src.application.dtos.productDto import (
 from src.application.dtos.ingredientDto import IngredientDto
 from src.domain.classes.product import Product
 from src.domain.classes.productIngredient import ProductIngredient
-from src.domain.classes.ingredient import Ingredient
-from kink import di, inject
-from src.domain.errors.errors import IngredientNotFoundError
+from kink import inject
+from src.domain.errors.errors import IngredientNotFoundError, ProductNotFoundError
 
 
 @inject
@@ -76,3 +75,9 @@ class ProductService:
                 ]
 
         return [ProductDtoResponse(**product.__dict__) for product in products]
+
+    def delete_product(self, id: int):
+        product = self.productRepository.get_product_by_id(id=id)
+        if not product:
+            raise ProductNotFoundError(id=id)
+        return self.productRepository.delete_product(id=id)
