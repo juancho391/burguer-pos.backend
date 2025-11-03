@@ -1,12 +1,9 @@
 from src.domain.repositories.productRepository import IProductRepository
 from sqlmodel import Session
 from src.infrastructure.models.productModel import ProductModel
-from src.infrastructure.models.ingredientModel import IngredientModel
 from src.domain.classes.product import Product
-from src.application.dtos.productDto import CreateProductDto, ProductDto
-from src.infrastructure.models.productIngredientModel import ProductIngredientModel
-from sqlalchemy.orm import selectinload, joinedload
-from sqlmodel import select
+from src.application.dtos.productDto import CreateProductDto
+from sqlmodel import select, delete
 
 
 class PostgreSqlProductRepository(IProductRepository):
@@ -38,3 +35,20 @@ class PostgreSqlProductRepository(IProductRepository):
             )
             for product in products
         ]
+
+    def get_product_by_id(self, id: int) -> Product | None:
+        product = self.session.get(ProductModel, id)
+        if not product:
+            return None
+        return Product.create_from_db_with_ingredients(
+            id=product.id,
+            name=product.name,
+            description=product.description,
+            price=product.price,
+            ingredients=product.ingredients_links,
+        )
+
+    def delete_product(self, id: int) -> bool:
+        result = self.session.exec(delete(ProductModel).where(ProductModel.id == id))
+        self.session.commit()
+        return result.rowcount > 0
