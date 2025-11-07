@@ -19,3 +19,8 @@ class ProductDtoResponse(SQLModel):
     description: str
     price: int
     ingredients: list[IngredientDto]
+
+
+class ProductOrderDto(SQLModel):
+    id: int
+    quantity: int
