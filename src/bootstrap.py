@@ -18,6 +18,13 @@ from src.infrastructure.repositories.postgresql_product_repository import (
 from src.infrastructure.repositories.postgresql_product_ingredient_repository import (
     ProductIngredientRepository,
 )
+from src.application.services.orderService import OrderService
+from src.infrastructure.repositories.postresql_order_repository import (
+    PostgreSqlOrderRepository,
+)
+from src.infrastructure.repositories.postgresql_order_product_repository import (
+    PostgreSqlOrderProductRepository,
+)
 
 
 def bootstrap_dependencies():
@@ -30,6 +37,10 @@ def bootstrap_dependencies():
         session=next(get_session_database())
     )
     product_ingredient_repository = ProductIngredientRepository(
+        session=next(get_session_database())
+    )
+    order_repository = PostgreSqlOrderRepository(session=next(get_session_database()))
+    order_product_repository = PostgreSqlOrderProductRepository(
         session=next(get_session_database())
     )
 
@@ -48,3 +59,8 @@ def bootstrap_dependencies():
         ingredientRepository=ingredient_repository,
     )
     di[IngredientService] = IngredientService(repository=ingredient_repository)
+    di[OrderService] = OrderService(
+        product_repository=product_repository,
+        order_repossitory=order_repository,
+        order_product_repository=order_product_repository,
+    )
