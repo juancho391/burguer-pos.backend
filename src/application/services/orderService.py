@@ -1,4 +1,4 @@
-from kink import di, inject
+from kink import inject
 from src.application.dtos.orderDto import CreateOrderDto, OrderWithProductsDto
 from src.domain.classes.order import Order
 from src.domain.repositories.productRepository import IProductRepository
@@ -26,7 +26,7 @@ class OrderService:
             product_db = self.product_repository.get_product_by_id(product.id)
             if not product_db:
                 raise ProductNotFoundError(id=product.id)
-            for i in range(product.quantity):
+            for _ in range(product.quantity):
                 products_db.append(product_db)
 
         new_order = Order.create_new_one(
@@ -61,6 +61,7 @@ class OrderService:
         relations_created = self.order_product_repository.create_all_order_product(
             order_products=order_products
         )
+        print("order and relations created successfully")
         if not relations_created:
             raise Exception("Error creating order products")
         return OrderWithProductsDto(**order_created.__dict__)
