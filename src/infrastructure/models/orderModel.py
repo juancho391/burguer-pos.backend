@@ -1,4 +1,8 @@
-from sqlmodel import Field, SQLModel  # pyright: ignore[reportUnknownVariableType]
+from sqlmodel import (
+    Field,  # pyright: ignore[reportUnknownVariableType]
+    SQLModel,
+    Relationship,
+)  # pyright: ignore[reportUnknownVariableType]
 from datetime import datetime, timezone
 
 
@@ -12,3 +16,5 @@ class OrderModel(SQLModel, table=True):
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
+
+    product_links: list["OrderProductModel"] = Relationship(back_populates="orders")

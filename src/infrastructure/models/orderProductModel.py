@@ -1,4 +1,8 @@
-from sqlmodel import SQLModel, Field  # pyright: ignore[reportUnknownVariableType]
+from sqlmodel import (
+    SQLModel,
+    Field,  # pyright: ignore[reportUnknownVariableType]
+    Relationship,
+)  # pyright: ignore[reportUnknownVariableType]
 
 
 class OrderProductModel(SQLModel, table=True):
@@ -8,3 +12,6 @@ class OrderProductModel(SQLModel, table=True):
     id_product: int = Field(foreign_key="Products.id", nullable=False)
     quantity: int = Field(nullable=False)
     unit_price: int = Field(nullable=False)
+
+    orders: list["OrderModel"] = Relationship(back_populates="product_links")  # type: ignore
+    product: "ProductModel" = Relationship(back_populates="order_links")  # type: ignore

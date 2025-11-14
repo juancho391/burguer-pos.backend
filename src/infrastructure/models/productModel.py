@@ -17,3 +17,5 @@ class ProductModel(SQLModel, table=True):
     ingredients_links: list[ProductIngredientModel] = Relationship(
         back_populates="product"
     )
+
+    order_links: list["OrderProductModel"] = Relationship(back_populates="product")  # type: ignore
