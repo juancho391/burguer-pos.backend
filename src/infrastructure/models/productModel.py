@@ -15,7 +15,7 @@ class ProductModel(SQLModel, table=True):
     price: float
 
     ingredients_links: list[ProductIngredientModel] = Relationship(
-        back_populates="product"
+        back_populates="product", cascade_delete=True
     )
 
     order_links: list["OrderProductModel"] = Relationship(back_populates="product")  # type: ignore

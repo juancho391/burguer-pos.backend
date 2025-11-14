@@ -8,9 +8,10 @@ from sqlmodel import (
 class ProductIngredientModel(SQLModel, table=True):
     __tablename__ = "ProductIngredients"
 
-    id: int = Field(default=None, primary_key=True)
-    id_product: int = Field(foreign_key="Products.id", nullable=False)
-    id_ingredient: int = Field(foreign_key="Ingredients.id", nullable=False)
+    id_product: int = Field(foreign_key="Products.id", nullable=False, primary_key=True)
+    id_ingredient: int = Field(
+        foreign_key="Ingredients.id", nullable=False, primary_key=True
+    )
     quantity: int
 
     product: "ProductModel" = Relationship(back_populates="ingredients_links")  # type: ignore # noqa: F821

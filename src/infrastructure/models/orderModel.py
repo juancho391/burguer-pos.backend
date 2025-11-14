@@ -17,4 +17,6 @@ class OrderModel(SQLModel, table=True):
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
 
-    product_links: list["OrderProductModel"] = Relationship(back_populates="orders")
+    product_links: list["OrderProductModel"] = Relationship(
+        back_populates="orders", cascade_delete=True
+    )

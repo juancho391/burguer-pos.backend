@@ -39,6 +39,6 @@ class PostgreSqlOrderProductRepository(IOrderProductRepository):
         self.session.add(order_product_model)
         self.session.commit()
         self.session.refresh(order_product_model)
-        if not order_product_model.id:
+        if not order_product_model:
             return False
         return True

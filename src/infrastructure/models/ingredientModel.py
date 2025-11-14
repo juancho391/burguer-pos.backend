@@ -15,5 +15,5 @@ class IngredientModel(SQLModel, table=True):
     reposition_point: int
 
     products_links: list[ProductIngredientModel] = Relationship(
-        back_populates="ingredient"
+        back_populates="ingredient", cascade_delete=True
     )
