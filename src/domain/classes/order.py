@@ -9,9 +9,9 @@ class Order:
     id_user: int
     customer_name: str
     id: Optional[int] = None
-    created_at: Optional[datetime] = None
-    total_price: Optional[float] = None
-    service_price: Optional[float] = None
+    created_at: Optional[datetime] = datetime.now()
+    total_price: Optional[int] = 0
+    service_price: Optional[int] = 0
     products: Optional[List[Product]] = None
 
     @classmethod
@@ -19,35 +19,11 @@ class Order:
         cls,
         id_user: int,
         customer_name: str,
-        products: List[Product],
-        include_service: bool,
-        service_rate: float = 0.10,
     ):
-        created_at = datetime.now()
-
-        total_products_price = sum(p.price for p in products)
-
-        if not include_service:
-            return cls(
-                id_user=id_user,
-                customer_name=customer_name,
-                created_at=created_at,
-                total_price=total_products_price,
-                service_price=0,
-                products=products,
-            )
-
-        service_price = total_products_price * service_rate
-
-        total_price = total_products_price + service_price
 
         return cls(
             id_user=id_user,
             customer_name=customer_name,
-            created_at=created_at,
-            total_price=total_price,
-            service_price=service_price,
-            products=products,
         )
 
     @classmethod
