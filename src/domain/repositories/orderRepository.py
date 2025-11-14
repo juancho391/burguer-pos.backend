@@ -13,5 +13,5 @@ class IOrderRepository(ABC):
         pass
 
     @abstractmethod
-    def get_all_orders(self) -> list[Order]:
+    def get_all_orders(self, limit: int) -> list[Order] | None:
         pass

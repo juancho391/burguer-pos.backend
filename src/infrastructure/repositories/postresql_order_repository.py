@@ -1,8 +1,10 @@
 from src.domain.repositories.orderRepository import IOrderRepository
 from sqlmodel import Session, select
 from src.domain.classes.order import Order
+from src.domain.classes.product import Product
 from src.infrastructure.models.orderModel import OrderModel
 from src.application.dtos.orderDto import CreateOrderDbDto
+from pprint import pprint as pp
 
 
 class PostgreSqlOrderRepository(IOrderRepository):
@@ -47,6 +49,18 @@ class PostgreSqlOrderRepository(IOrderRepository):
             products=order.product_links,
         )
 
-    def get_all_orders(self, limit: int) -> list[Order]:
+    def get_all_orders(self, limit: int) -> list[Order] | None:
         orders = self.session.exec(select(OrderModel).limit(limit=limit)).all()
-        print(orders)
+        orders_db = [
+            Order.create_from_db(
+                id=order.id,
+                id_user=order.id_user,
+                customer_name=order.customer_name,
+                created_at=order.created_at,
+                total_price=order.total_price,
+                service_price=order.service_price,
+                products=[pl.product for pl in order.product_links],  # type: ignore
+            )
+            for order in orders
+        ]
+        return orders_db

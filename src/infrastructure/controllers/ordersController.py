@@ -6,6 +6,7 @@ from kink import di
 from fastapi.responses import JSONResponse
 import json
 from src.domain.errors.errors import OrderNotFoundError, ProductNotFoundError
+from pprint import pprint as pp
 
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
@@ -42,9 +43,11 @@ def add_products_to_order(
 
 @router.get("/", response_model=list[OrderWithProductsDto])
 def get_all_orders(
+    limit: int = 10,
     service: OrderService = Depends(lambda: di[OrderService]),
 ) -> JSONResponse:
-    order_created = service.get_all_orders()
+    orders = service.get_all_orders(limit=limit)
     return JSONResponse(
-        content=json.loads(order_created.model_dump_json()), status_code=201
+        [order.model_dump(mode="json") for order in orders],
+        status_code=201,
     )
