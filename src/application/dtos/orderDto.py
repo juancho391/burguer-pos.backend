@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel
-from src.application.dtos.productDto import ProductDtoResponse
+from src.application.dtos.productDto import ProductDtoResponse, ProductNoIngredientsDto
 from datetime import datetime
 
 
@@ -26,3 +26,8 @@ class OrderDto(CreateOrderDbDto):
 # Dto for validating order response with products
 class OrderWithProductsDto(OrderDto):
     products: list[ProductDtoResponse]
+
+
+# Dto for validating order response with products without ingredients
+class OrderWithProductsNoIngredientsDto(OrderDto):
+    products: list[ProductNoIngredientsDto]
