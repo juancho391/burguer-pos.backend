@@ -29,7 +29,7 @@ def create_product(
 @router.get("/", response_model=list[ProductDto])
 def get_all_products(
     service: ProductService = Depends(lambda: di[ProductService]), limit: int = 10
-) -> list[ProductDto]:
+) -> JSONResponse:
     products = service.get_all_products(limit=limit)
     return JSONResponse(
         content=[product.model_dump() for product in products],
