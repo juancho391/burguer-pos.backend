@@ -61,6 +61,6 @@ def bootstrap_dependencies():
     di[IngredientService] = IngredientService(repository=ingredient_repository)
     di[OrderService] = OrderService(
         product_repository=product_repository,
-        order_repossitory=order_repository,
+        order_repository=order_repository,
         order_product_repository=order_product_repository,
     )
