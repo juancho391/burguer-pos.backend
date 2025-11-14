@@ -12,7 +12,6 @@ class PostgreSqlOrderRepository(IOrderRepository):
         self.session = session
 
     def create_order(self, order: Order) -> Order:
-        print("Order repository")
         order_model = OrderModel.model_validate(
             CreateOrderDbDto(
                 id_user=order.id_user,
