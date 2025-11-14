@@ -4,6 +4,7 @@ from src.application.dtos.orderDto import (
     OrderWithProductsDto,
     CreateOrderDbDto,
     OrderDto,
+    OrderWithProductsNoIngredientsDto,
 )
 from src.application.dtos.productDto import ProductOrderDto
 from src.domain.classes.order import Order
@@ -53,6 +54,19 @@ class OrderService:
         )
         return True if order_product_saved else False
 
-    def get_all_orders(self):
-        orders = self.order_repository.get_all_orders()
-        return orders
+    def get_all_orders(self, limit: int) -> list[OrderWithProductsDto] | None:
+        orders = self.order_repository.get_all_orders(limit=limit)
+        if not orders:
+            return None
+        return [
+            OrderWithProductsNoIngredientsDto(
+                id=order.id,
+                customer_name=order.customer_name,
+                products=order.products,
+                total_price=order.total_price,
+                service_price=order.service_price,
+                created_at=order.created_at,
+                id_user=order.id_user,
+            )
+            for order in orders
+        ]
