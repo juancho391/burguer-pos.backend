@@ -34,3 +34,8 @@ class IngredientNotFoundError(DomainError):
 class ProductNotFoundError(DomainError):
     def __init__(self, id: int):
         super().__init__(f"Product with id :{id} not found.")
+
+
+class OrderNotFoundError(DomainError):
+    def __init__(self, id: int):
+        super().__init__(f"Order with id :{id} not found.")
