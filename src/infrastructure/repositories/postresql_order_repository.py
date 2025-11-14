@@ -1,5 +1,5 @@
 from src.domain.repositories.orderRepository import IOrderRepository
-from sqlmodel import Session
+from sqlmodel import Session, select
 from src.domain.classes.order import Order
 from src.infrastructure.models.orderModel import OrderModel
 from src.application.dtos.orderDto import CreateOrderDbDto
@@ -10,6 +10,7 @@ class PostgreSqlOrderRepository(IOrderRepository):
         self.session = session
 
     def create_order(self, order: Order) -> Order:
+
         order_model = OrderModel.model_validate(
             CreateOrderDbDto(
                 id_user=order.id_user,
@@ -35,5 +36,6 @@ class PostgreSqlOrderRepository(IOrderRepository):
     def get_order_by_id(self, id: int) -> Order:
         pass
 
-    def get_all_orders(self) -> list[Order]:
-        pass
+    def get_all_orders(self, limit: int) -> list[Order]:
+        orders = self.session.exec(select(OrderModel).limit(limit=limit)).all()
+        print(orders)
