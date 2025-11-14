@@ -57,7 +57,7 @@ class OrderService:
     def get_all_orders(self, limit: int) -> list[OrderWithProductsDto] | None:
         orders = self.order_repository.get_all_orders(limit=limit)
         if not orders:
-            return None
+            return []
         return [
             OrderWithProductsNoIngredientsDto(
                 id=order.id,
