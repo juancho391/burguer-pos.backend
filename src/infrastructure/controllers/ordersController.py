@@ -9,7 +9,7 @@ import json
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
 
-@router.post("/", response_model=OrderWithProductsDto)
+@router.post("/")
 def create_order(
     order: CreateOrderDto, service: OrderService = Depends(lambda: di[OrderService])
 ) -> JSONResponse:
