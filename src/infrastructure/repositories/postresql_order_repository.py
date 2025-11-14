@@ -10,7 +10,7 @@ class PostgreSqlOrderRepository(IOrderRepository):
         self.session = session
 
     def create_order(self, order: Order) -> Order:
-
+        print("Order repository")
         order_model = OrderModel.model_validate(
             CreateOrderDbDto(
                 id_user=order.id_user,
@@ -33,8 +33,19 @@ class PostgreSqlOrderRepository(IOrderRepository):
             products=order.products,
         )
 
-    def get_order_by_id(self, id: int) -> Order:
-        pass
+    def get_order_by_id(self, id: int) -> Order | None:
+        order = self.session.exec(select(OrderModel).where(OrderModel.id == id)).first()
+        if not order:
+            return None
+        return Order.create_from_db(
+            id=order.id,
+            id_user=order.id_user,
+            customer_name=order.customer_name,
+            created_at=order.created_at,
+            total_price=order.total_price,
+            service_price=order.service_price,
+            products=order.product_links,
+        )
 
     def get_all_orders(self, limit: int) -> list[Order]:
         orders = self.session.exec(select(OrderModel).limit(limit=limit)).all()

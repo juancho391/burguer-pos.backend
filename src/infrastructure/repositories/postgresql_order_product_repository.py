@@ -26,3 +26,19 @@ class PostgreSqlOrderProductRepository(IOrderProductRepository):
         self.session.add_all(order_products_model)
         self.session.commit()
         return True
+
+    def add_product_to_order(self, order_product: OrderProduct) -> bool:
+        order_product_model = OrderProductModel.model_validate(
+            CreateOrderProductDto(
+                id_order=order_product.order_id,
+                id_product=order_product.product_id,
+                quantity=order_product.quantity,
+                unit_price=order_product.unit_price,
+            )
+        )
+        self.session.add(order_product_model)
+        self.session.commit()
+        self.session.refresh(order_product_model)
+        if not order_product_model.id:
+            return False
+        return True
