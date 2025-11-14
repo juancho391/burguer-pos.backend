@@ -18,4 +18,4 @@ class ProductModel(SQLModel, table=True):
         back_populates="product", cascade_delete=True
     )
 
-    order_links: list["OrderProductModel"] = Relationship(back_populates="product")  # type: ignore
+    order_links: list["OrderProductModel"] = Relationship(back_populates="product")  # type: ignore # noqa: F821

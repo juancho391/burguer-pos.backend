@@ -2,7 +2,6 @@ from kink import inject
 from src.application.dtos.orderDto import (
     CreateOrderDto,
     OrderWithProductsDto,
-    CreateOrderDbDto,
     OrderDto,
     OrderWithProductsNoIngredientsDto,
 )

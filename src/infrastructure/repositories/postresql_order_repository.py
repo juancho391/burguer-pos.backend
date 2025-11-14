@@ -1,10 +1,8 @@
 from src.domain.repositories.orderRepository import IOrderRepository
 from sqlmodel import Session, select
 from src.domain.classes.order import Order
-from src.domain.classes.product import Product
 from src.infrastructure.models.orderModel import OrderModel
 from src.application.dtos.orderDto import CreateOrderDbDto
-from pprint import pprint as pp
 
 
 class PostgreSqlOrderRepository(IOrderRepository):

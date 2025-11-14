@@ -6,7 +6,6 @@ from kink import di
 from fastapi.responses import JSONResponse
 import json
 from src.domain.errors.errors import OrderNotFoundError, ProductNotFoundError
-from pprint import pprint as pp
 
 
 router = APIRouter(prefix="/orders", tags=["Orders"])

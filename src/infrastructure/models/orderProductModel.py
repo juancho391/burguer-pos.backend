@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlmodel import (
     SQLModel,
     Field,  # pyright: ignore[reportUnknownVariableType]
@@ -12,5 +14,5 @@ class OrderProductModel(SQLModel, table=True):
     quantity: int = Field(nullable=False)
     unit_price: int = Field(nullable=False)
 
-    orders: list["OrderModel"] = Relationship(back_populates="product_links")  # type: ignore
-    product: "ProductModel" = Relationship(back_populates="order_links")  # type: ignore
+    orders: list["OrderModel"] = Relationship(back_populates="product_links")  # type: ignore # noqa: F821
+    product: "ProductModel" = Relationship(back_populates="order_links")  # type: ignore # noqa: F821

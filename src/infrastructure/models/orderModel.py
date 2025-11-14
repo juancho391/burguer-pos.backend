@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlmodel import (
     Field,  # pyright: ignore[reportUnknownVariableType]
     SQLModel,
@@ -17,6 +19,6 @@ class OrderModel(SQLModel, table=True):
         default_factory=lambda: datetime.now(timezone.utc), nullable=False
     )
 
-    product_links: list["OrderProductModel"] = Relationship(
+    product_links: list["OrderProductModel"] = Relationship(  # type: ignore # noqa: F821
         back_populates="orders", cascade_delete=True
     )
